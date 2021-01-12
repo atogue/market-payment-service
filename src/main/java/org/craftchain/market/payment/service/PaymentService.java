@@ -5,6 +5,9 @@ import org.craftchain.market.payment.repository.PaymentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
+import java.util.Date;
+import java.util.Random;
 import java.util.UUID;
 
 @Service
@@ -14,7 +17,14 @@ public class PaymentService {
     private PaymentRepository repository;
 
     public Payment doPayment(Payment payment) {
+        payment.setDate(Date.from(Instant.now())); // payment date time
+        payment.setStatus(paymentProcessing());
         payment.setTransactionId(UUID.randomUUID().toString()); // auto generated
         return  repository.save(payment);
+    }
+
+    public String paymentProcessing() {
+        // api should be 3rd party payment gateway (paypal, visa, cb, ...)
+        return new Random().nextBoolean() ? "success" : "failed";
     }
 }
