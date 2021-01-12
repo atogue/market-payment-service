@@ -4,6 +4,6 @@ This spring boot application is a Microservice architecture Proof Of Concept app
 ##Note: 
 requirements: maven3 and java 15 (also java 11) or higher.
 
-It also required to run the following 2 services:
+It also requires to run the following 2 services:
 - market-order-service
 - market-user-service
