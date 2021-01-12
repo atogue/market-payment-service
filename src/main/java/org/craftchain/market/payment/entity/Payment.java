@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.util.Date;
 
 @Entity
 @Table(name = "PAYMENT_TB")
@@ -21,4 +22,7 @@ public class Payment {
     private int paymentId;
     private String status;
     private String transactionId;
+    private int orderId;
+    private double amount;
+    private Date date;
 }
