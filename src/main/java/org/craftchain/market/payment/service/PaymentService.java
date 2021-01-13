@@ -17,10 +17,14 @@ public class PaymentService {
     private PaymentRepository repository;
 
     public Payment doPayment(Payment payment) {
-        payment.setDate(Date.from(Instant.now())); // payment date time
-        payment.setStatus(paymentProcessing());
-        payment.setTransactionId(UUID.randomUUID().toString()); // auto generated
-        return  repository.save(payment);
+        if (paymentProcessing().equals("success")) {
+            payment.setDate(Date.from(Instant.now())); // payment date time
+            payment.setStatus("success");
+            payment.setTransactionId(UUID.randomUUID().toString()); // auto generated
+            return  repository.save(payment);
+        }
+        payment.setStatus("failed");
+        return payment;
     }
 
     public String paymentProcessing() {
