@@ -1,8 +1,8 @@
 package org.craftchain.market.payment.service;
 
+import org.craftchain.market.payment.common.Constants;
 import org.craftchain.market.payment.entity.Payment;
 import org.craftchain.market.payment.repository.PaymentRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -13,17 +13,19 @@ import java.util.UUID;
 @Service
 public class PaymentService {
 
-    @Autowired
-    private PaymentRepository repository;
+    private final PaymentRepository repository;
+    public PaymentService(PaymentRepository repository) {
+        this.repository = repository;
+    }
 
     public Payment doPayment(Payment payment) {
-        if (paymentProcessing().equals("success")) {
+        if (paymentProcessing().equalsIgnoreCase(Constants.SUCCESS.name())) {
             payment.setDate(Date.from(Instant.now())); // payment date time
-            payment.setStatus("success");
+            payment.setStatus(Constants.SUCCESS.toString().toLowerCase());
             payment.setTransactionId(UUID.randomUUID().toString()); // auto generated
             return  repository.save(payment);
         }
-        payment.setStatus("failed");
+        payment.setStatus(Constants.FAILED.name());
         return payment;
     }
 
